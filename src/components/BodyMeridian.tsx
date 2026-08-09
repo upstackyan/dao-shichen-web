@@ -96,7 +96,7 @@ export default function BodyMeridian({ activeIndex, onSelect }: BodyMeridianProp
   const activePath = MERIDIAN_PATHS[activeIndex]
 
   return (
-    <section className="flex min-h-0 shrink-0 basis-[clamp(300px,32vw,430px)] flex-col rounded-2xl border border-line bg-card px-[clamp(12px,1.6vw,20px)] py-[clamp(10px,1.6vh,18px)] shadow-[0_12px_32px_var(--shadow)] transition-colors duration-[600ms] max-[900px]:basis-auto">
+    <section className="flex min-h-0 shrink-0 basis-[clamp(300px,32vw,430px)] flex-col rounded-2xl border border-line bg-card px-[clamp(12px,1.6vw,20px)] py-[clamp(10px,1.6vh,18px)] shadow-[0_12px_32px_var(--shadow)] transition-colors duration-[600ms] max-[900px]:basis-auto max-[640px]:hidden">
       <div className="mb-0.5 flex shrink-0 items-baseline justify-between">
         <h2 className="text-[clamp(14px,2.2vh,18px)] font-semibold tracking-[0.3em]">
           经络流注

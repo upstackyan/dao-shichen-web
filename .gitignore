@@ -54,3 +54,6 @@ coverage
 # Misc
 .vercel
 *.tgz
+
+# 浏览器验证截图等临时产物
+.verify-*.png

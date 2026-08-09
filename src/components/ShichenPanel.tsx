@@ -33,7 +33,7 @@ export default function ShichenPanel({
 
   return (
     <section
-      className="flex min-h-0 flex-1 basis-0 flex-col gap-[clamp(8px,1.4vh,18px)] overflow-y-auto rounded-2xl px-[clamp(16px,2vw,32px)] py-[clamp(14px,2vh,30px)] text-[#f7f3e8] shadow-[0_12px_32px_var(--shadow)] transition-[background] duration-[600ms] max-[900px]:overflow-y-visible"
+      className="flex min-h-0 flex-1 basis-0 flex-col gap-[clamp(8px,1.4vh,18px)] overflow-y-auto rounded-2xl px-[clamp(16px,2vw,32px)] py-[clamp(14px,2vh,30px)] text-[#f7f3e8] shadow-[0_12px_32px_var(--shadow)] transition-[background] duration-[600ms] max-[900px]:flex-none max-[900px]:basis-auto max-[900px]:overflow-y-visible"
       style={{
         background: `linear-gradient(150deg, ${data.colorDeep} 0%, ${data.color} 100%)`,
       }}
