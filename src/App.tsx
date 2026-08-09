@@ -59,6 +59,7 @@ export default function App() {
           isLive={isLive}
           clock={offsetToClock(offset)}
           countdownText={formatCountdown(secondsToNextShichen(now))}
+          now={now}
         />
         <BodyMeridian
           activeIndex={activeIndex}

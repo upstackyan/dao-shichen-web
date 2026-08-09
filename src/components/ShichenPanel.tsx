@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SHICHEN_LIST, type ShichenData } from '../data/meridians'
+import { getCalendarInfo } from '../utils/lunar'
 
 interface ShichenPanelProps {
   data: ShichenData
@@ -8,6 +9,8 @@ interface ShichenPanelProps {
   clock: string
   /** 距下一时辰倒计时文本 */
   countdownText: string
+  /** 当前真实时间（用于右上角公历/农历展示） */
+  now: Date
 }
 
 export default function ShichenPanel({
@@ -15,6 +18,7 @@ export default function ShichenPanel({
   isLive,
   clock,
   countdownText,
+  now,
 }: ShichenPanelProps) {
   const [quoteIndex, setQuoteIndex] = useState(0)
 
@@ -30,6 +34,7 @@ export default function ShichenPanel({
   // 取模兜底：时辰切换后 effect 重置索引前，渲染阶段也不会越界
   const quote = data.quotes[quoteIndex % data.quotes.length]
   const next = SHICHEN_LIST[(data.index + 1) % 12]
+  const calendar = getCalendarInfo(now)
 
   return (
     <section
@@ -38,32 +43,43 @@ export default function ShichenPanel({
         background: `linear-gradient(150deg, ${data.colorDeep} 0%, ${data.color} 100%)`,
       }}
     >
-      <div className="flex items-center gap-[clamp(12px,1.8vw,20px)]">
-        <div
-          className="font-display text-[clamp(44px,9vh,92px)] leading-none font-bold text-white/90 drop-shadow-[0_4px_18px_rgba(0,0,0,0.25)]"
-          aria-hidden
-        >
-          {data.name}
+      <div className="flex items-start justify-between gap-[clamp(12px,1.8vw,20px)]">
+        <div className="flex items-center gap-[clamp(12px,1.8vw,20px)]">
+          <div
+            className="font-display text-[clamp(44px,9vh,92px)] leading-none font-bold text-white/90 drop-shadow-[0_4px_18px_rgba(0,0,0,0.25)]"
+            aria-hidden
+          >
+            {data.name}
+          </div>
+          <div className="flex flex-col gap-[clamp(2px,0.6vh,6px)]">
+            <div className="text-[clamp(12px,1.7vh,15px)] tracking-[0.2em] opacity-85">
+              {data.alias}时 · {data.start} – {data.end}
+            </div>
+            <div className="text-[clamp(22px,4vh,38px)] font-bold tracking-wide tabular-nums">
+              {clock}
+            </div>
+            {isLive ? (
+              <div className="text-xs tracking-[0.06em] opacity-80">
+                距{next.name}时{' '}
+                <span className="text-[15px] font-bold tabular-nums">
+                  {countdownText}
+                </span>
+              </div>
+            ) : (
+              <div className="w-fit rounded-full bg-white/15 px-3 py-0.5 text-xs tracking-[0.06em] opacity-90">
+                预览中 · 点击「回到现在」恢复实时
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex flex-col gap-[clamp(2px,0.6vh,6px)]">
-          <div className="text-[clamp(12px,1.7vh,15px)] tracking-[0.2em] opacity-85">
-            {data.alias}时 · {data.start} – {data.end}
+
+        <div className="shrink-0 text-right">
+          <div className="text-[clamp(11px,1.6vh,13px)] tracking-[0.08em] opacity-85 tabular-nums">
+            {calendar.solarDate} {calendar.solarTime}
           </div>
-          <div className="text-[clamp(22px,4vh,38px)] font-bold tracking-wide tabular-nums">
-            {clock}
+          <div className="mt-1 font-display text-[clamp(13px,2vh,17px)] font-semibold tracking-[0.12em] opacity-95">
+            {calendar.lunar}
           </div>
-          {isLive ? (
-            <div className="text-xs tracking-[0.06em] opacity-80">
-              距{next.name}时{' '}
-              <span className="text-[15px] font-bold tabular-nums">
-                {countdownText}
-              </span>
-            </div>
-          ) : (
-            <div className="w-fit rounded-full bg-white/15 px-3 py-0.5 text-xs tracking-[0.06em] opacity-90">
-              预览中 · 点击「回到现在」恢复实时
-            </div>
-          )}
         </div>
       </div>
 
