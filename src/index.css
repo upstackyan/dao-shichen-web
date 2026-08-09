@@ -1,0 +1,95 @@
+/* ===== 全局基础与主题变量 ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family:
+    'Songti SC', 'STSong', 'SimSun', 'Noto Serif SC', 'Source Han Serif SC',
+    serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* 昼（浅色）主题 */
+.app[data-theme='light'] {
+  --bg: #f5f0e6;
+  --bg-card: #fffdf7;
+  --ink: #2b2620;
+  --ink-soft: #7a7166;
+  --line: #ddd2bd;
+  --body-fill-top: #f2ead8;
+  --body-fill-bottom: #d9cdae;
+  --body-stroke: #9a8f7a;
+  --meridian-idle: #a89d88;
+  --shadow: rgba(60, 48, 30, 0.12);
+}
+
+/* 夜（深色）主题 */
+.app[data-theme='dark'] {
+  --bg: #10141c;
+  --bg-card: #1a2029;
+  --ink: #e9e2d2;
+  --ink-soft: #99917f;
+  --line: #2c3340;
+  --body-fill-top: #2b3444;
+  --body-fill-bottom: #1b2330;
+  --body-stroke: #5a6270;
+  --meridian-idle: #4c5462;
+  --shadow: rgba(0, 0, 0, 0.45);
+}
+
+.app {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  padding: clamp(12px, 2vh, 26px) clamp(16px, 4vw, 44px)
+    clamp(8px, 1.4vh, 18px);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* 经络流注动画：虚线周期 18px，位移 180 为 10 个周期，无缝循环 */
+@keyframes meridian-flow {
+  to {
+    stroke-dashoffset: -180;
+  }
+}
+
+@keyframes quote-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
