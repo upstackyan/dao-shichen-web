@@ -1,31 +1,7 @@
-/* ===== 全局基础与主题变量 ===== */
+@import 'tailwindcss';
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ===== 运行时主题变量（昼夜双主题，挂在 .app 根节点） ===== */
 
-html,
-body,
-#root {
-  height: 100%;
-}
-
-body {
-  font-family:
-    'Songti SC', 'STSong', 'SimSun', 'Noto Serif SC', 'Source Han Serif SC',
-    serif;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-
-/* 昼（浅色）主题 */
 .app[data-theme='light'] {
   --bg: #f5f0e6;
   --bg-card: #fffdf7;
@@ -39,7 +15,6 @@ button {
   --shadow: rgba(60, 48, 30, 0.12);
 }
 
-/* 夜（深色）主题 */
 .app[data-theme='dark'] {
   --bg: #10141c;
   --bg-card: #1a2029;
@@ -53,23 +28,35 @@ button {
   --shadow: rgba(0, 0, 0, 0.45);
 }
 
-.app {
-  height: 100vh;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--bg);
-  color: var(--ink);
-  padding: clamp(12px, 2vh, 26px) clamp(16px, 4vw, 44px)
-    clamp(8px, 1.4vh, 18px);
-  transition: background-color 0.6s ease, color 0.6s ease;
+/* ===== 将运行时变量映射为 Tailwind 设计令牌 ===== */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--bg-card);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-light: var(--accent-light);
+
+  /* 现代 UI 无衬线：优先苹方 / 鸿蒙黑体 / MiSans 等现代中文字体 */
+  --font-ui: -apple-system, BlinkMacSystemFont, 'PingFang SC',
+    'HarmonyOS Sans SC', 'MiSans', 'Source Han Sans SC', 'Noto Sans SC',
+    'Microsoft YaHei', sans-serif;
+  /* 人文衬线：用于标题、地支大字与金句的展示性点缀 */
+  --font-display: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC',
+    'STSong', 'SimSun', serif;
+
+  --animate-quote-in: quote-in 0.8s ease both;
 }
 
-/* 经络流注动画：虚线周期 18px，位移 180 为 10 个周期，无缝循环 */
-@keyframes meridian-flow {
-  to {
-    stroke-dashoffset: -180;
+@layer base {
+  body {
+    font-family: var(--font-ui);
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -84,6 +71,15 @@ button {
   }
 }
 
+/* ===== SVG 场景（人体 / 经络）：随主题变量着色的内部样式 ===== */
+
+@keyframes meridian-flow {
+  /* 虚线周期 18px，位移 180 为 10 个周期，无缝循环 */
+  to {
+    stroke-dashoffset: -180;
+  }
+}
+
 @keyframes dot-pulse {
   0%,
   100% {
@@ -92,4 +88,79 @@ button {
   50% {
     opacity: 0.45;
   }
+}
+
+.body-aura {
+  fill: var(--accent);
+  opacity: 0.08;
+  transition: fill 0.6s ease;
+}
+
+.body-grad-top {
+  stop-color: var(--body-fill-top);
+}
+
+.body-grad-bottom {
+  stop-color: var(--body-fill-bottom);
+}
+
+.silhouette {
+  stroke: var(--body-stroke);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 8px 14px var(--shadow));
+  transition: stroke 0.6s ease;
+}
+
+.hit-area {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 16;
+  stroke-linecap: round;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.meridian-line {
+  fill: none;
+  stroke: var(--meridian-idle);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: 0.4;
+  pointer-events: none;
+  transition: stroke 0.3s ease, opacity 0.3s ease;
+}
+
+.meridian-hit:hover .meridian-line {
+  opacity: 0.9;
+  stroke: var(--accent);
+}
+
+.meridian-hit.is-active .meridian-line {
+  opacity: 0;
+}
+
+.active-underlay {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  opacity: 0.28;
+}
+
+.active-flow {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 10 8;
+  animation: meridian-flow 3.5s linear infinite;
+}
+
+.active-dot {
+  animation: dot-pulse 1.8s ease-in-out infinite;
+}
+
+.active-label {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-family: var(--font-ui);
 }

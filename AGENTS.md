@@ -19,10 +19,13 @@ npm run preview    # 预览构建产物
 
 ## 技术约束（重要）
 
-- Vite 5 + React 18 + TypeScript strict；**不引入 UI 组件库、动画库或 CSS 框架**，样式一律纯 CSS
-- 主题与配色全部通过 CSS Variables 驱动：`data-theme="light|dark"` 挂在 `.app` 根节点；时辰强调色通过内联 `--accent / --accent-deep / --accent-light` 注入
-- 响应式使用 `clamp()` + `vh/vw` 压缩字体与间距；桌面正常视窗下**整页单屏无滚动**（`.app` 为 `100dvh` + `overflow: hidden`），请勿改回 `min-height` 布局；窄屏（≤900px）才允许页面级滚动
+- Vite 5 + React 18 + TypeScript strict；**不引入 UI 组件库、动画库**
+- 样式使用 **Tailwind CSS v4**（`@tailwindcss/vite` 插件）：布局/排版/主题一律用工具类写在 JSX；**不要新增组件级 CSS 文件**（App.css 已删除）
+- 主题体系：运行时变量定义在 `index.css` 的 `.app[data-theme='light'|'dark']`；通过 `@theme inline` 映射为 Tailwind 令牌（`bg-bg` / `bg-card` / `text-ink` / `text-ink-soft` / `border-line` / `bg-accent` / `text-accent-deep` 等）与时辰强调色（内联 `--accent / --accent-deep / --accent-light`）；深色下的差异用 `group` + `group-data-[theme=dark]:` 变体，不要新增 CSS 规则
+- 例外：人体 SVG 内部（轮廓/经络描边/流注动画/渐变 stop）保留 `index.css` 中的场景样式类（`.silhouette`、`.meridian-*`、`.active-*`、`.body-aura` 等），因其依赖运行时 CSS 变量与 SVG 特性
+- 响应式尺寸用任意值 `clamp()`（如 `text-[clamp(22px,4vh,38px)]`）；桌面正常视窗下**整页单屏无滚动**（根容器 `h-dvh` + `overflow-hidden`），请勿改回 `min-h-*` 布局；窄屏用 `max-[900px]:` 变体恢复堆叠与滚动
 - SVG 经络动画用 `stroke-dashoffset` keyframes（虚线周期 18px，位移需为其整数倍以保证无缝循环）
+- 修改 Tailwind 配置 / 插件后需重启 dev server（旧进程不会自动加载新插件，曾导致零工具类输出）
 
 ## 核心架构约定
 
@@ -44,7 +47,7 @@ npm run preview    # 预览构建产物
 
 ### 主题
 
-`useTheme`：三态 auto/light/dark；auto 时卯至申（索引 3–8）为浅色昼，其余为深色夜。新颜色需求优先加 CSS 变量，不要硬编码到组件。
+`useTheme`：三态 auto/light/dark；auto 时卯至申（索引 3–8）为浅色昼，其余为深色夜。新颜色需求优先加 CSS 变量 + `@theme inline` 映射，不要硬编码到组件。
 
 ## 内容红线
 

@@ -96,13 +96,17 @@ export default function BodyMeridian({ activeIndex, onSelect }: BodyMeridianProp
   const activePath = MERIDIAN_PATHS[activeIndex]
 
   return (
-    <section className="body-meridian">
-      <div className="body-header">
-        <h2>经络流注</h2>
-        <span className="body-hint">点击经络可跳转对应时辰</span>
+    <section className="flex min-h-0 shrink-0 basis-[clamp(300px,32vw,430px)] flex-col rounded-2xl border border-line bg-card px-[clamp(12px,1.6vw,20px)] py-[clamp(10px,1.6vh,18px)] shadow-[0_12px_32px_var(--shadow)] transition-colors duration-[600ms] max-[900px]:basis-auto">
+      <div className="mb-0.5 flex shrink-0 items-baseline justify-between">
+        <h2 className="text-[clamp(14px,2.2vh,18px)] font-semibold tracking-[0.3em]">
+          经络流注
+        </h2>
+        <span className="text-[clamp(10px,1.5vh,12px)] tracking-[0.08em] text-ink-soft [@media(max-height:640px)]:hidden">
+          点击经络可跳转对应时辰
+        </span>
       </div>
       <svg
-        className="body-svg"
+        className="h-full min-h-0 w-full flex-1 max-[900px]:max-h-[520px]"
         viewBox="0 0 300 640"
         preserveAspectRatio="xMidYMid meet"
         role="img"
@@ -182,8 +186,11 @@ export default function BodyMeridian({ activeIndex, onSelect }: BodyMeridianProp
           </text>
         </g>
       </svg>
-      <div className="body-caption">
-        <span className="caption-dot" style={{ background: active.color }} />
+      <div className="flex shrink-0 items-center gap-2 border-t border-dashed border-line pt-[clamp(6px,1vh,10px)] text-[clamp(11px,1.6vh,13px)] text-ink-soft">
+        <span
+          className="h-2.5 w-2.5 shrink-0 rounded-full"
+          style={{ background: active.color }}
+        />
         当前当令：<strong>{active.meridian}</strong>（{active.organ}）·{' '}
         {active.name}时 {active.start}–{active.end}
       </div>

@@ -16,9 +16,9 @@
 ## 技术栈
 
 - Vite 5 + React 18 + TypeScript（strict 模式）
-- 纯 CSS（CSS Variables 主题体系 + `clamp()` 响应式压缩），零 UI / 动画库依赖
-- 经络流注动画基于 SVG `stroke-dashoffset`，时间轴拖拽基于原生 Pointer Events
-- 桌面正常视窗下整页单屏显示（`100dvh`），无页面级滚动
+- Tailwind CSS v4（`@tailwindcss/vite` 插件）：布局/排版/主题全部使用工具类；昼夜主题变量通过 `@theme inline` 映射为 `bg-bg`、`text-ink`、`bg-accent` 等设计令牌；人体 SVG 内部的描边/流注动画保留少量场景样式（`index.css`）
+- 零 UI / 动画库依赖：经络流注动画基于 SVG `stroke-dashoffset`，时间轴拖拽基于原生 Pointer Events，尺寸随视窗用 `clamp()` 任意值弹性压缩
+- 桌面正常视窗下整页单屏显示（`h-dvh`），无页面级滚动
 
 ## 快速开始
 
@@ -45,8 +45,8 @@ src/
 │   ├── BodyMeridian.tsx       # 右侧：SVG 人体 + 12 条经络路径与流注动画
 │   ├── Timeline.tsx           # 底部：24h 时间轴拖拽
 │   └── ThemeToggle.tsx        # 主题切换按钮
-├── App.tsx                    # 实时/预览双模式状态编排
-├── App.css / index.css        # 组件样式与主题变量
+├── App.tsx                    # 实时/预览双模式状态编排（Tailwind 布局）
+├── index.css                  # Tailwind 入口 + 主题变量/令牌映射 + SVG 场景样式
 └── main.tsx
 ```
 
