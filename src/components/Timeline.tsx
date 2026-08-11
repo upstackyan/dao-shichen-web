@@ -80,13 +80,19 @@ export default function Timeline({
         onPointerCancel={handlePointerUp}
       >
         {SHICHEN_LIST.map((s) => (
-          <div
+          <button
             key={s.index}
-            className={`flex-1 opacity-45 transition-opacity duration-300 first:rounded-l-lg last:rounded-r-lg ${
+            type="button"
+            aria-label={`${s.name}时 ${s.start}–${s.end} · ${s.meridian}，点击预览`}
+            className={`flex-1 cursor-pointer opacity-45 transition-[opacity,transform] duration-300 first:rounded-l-lg last:rounded-r-lg hover:-translate-y-px hover:opacity-80 focus-visible:opacity-80 ${
               s.index === currentIndex ? 'opacity-100' : ''
             }`}
             style={{ background: s.color }}
             title={`${s.name}时 ${s.start}–${s.end} · ${s.meridian}`}
+            onClick={(e) => {
+              // 键盘触发（Enter/Space）的 click detail 为 0：跳到该时辰中点
+              if (e.detail === 0) onScrub(s.index * 120 + 60)
+            }}
           />
         ))}
         <div
@@ -107,7 +113,7 @@ export default function Timeline({
         {SHICHEN_LIST.map((s) => (
           <span
             key={s.index}
-            className="flex-1 text-center text-[clamp(11px,1.7vh,13px)] tracking-[0.1em] text-ink-soft"
+            className="font-glyph flex-1 text-center text-[clamp(12px,1.8vh,14px)] tracking-[0.1em] text-ink-soft"
           >
             {s.name}
           </span>

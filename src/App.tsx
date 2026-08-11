@@ -43,7 +43,7 @@ export default function App() {
     >
       <header className="mb-[clamp(8px,1.6vh,20px)] flex shrink-0 items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-[clamp(22px,3.6vh,38px)] font-bold tracking-[0.3em] text-accent-deep transition-colors duration-[600ms] group-data-[theme=dark]:text-accent-light">
+          <h1 className="font-glyph text-[clamp(22px,3.6vh,38px)] font-bold tracking-[0.3em] text-accent-deep transition-colors duration-[600ms] group-data-[theme=dark]:text-accent-light">
             子午流注
           </h1>
           <p className="mt-1 text-[clamp(11px,1.6vh,14px)] tracking-[0.3em] text-ink-soft">

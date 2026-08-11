@@ -160,6 +160,15 @@ export default function BodyMeridian({ activeIndex, onSelect }: BodyMeridianProp
             key={i}
             className={`meridian-hit ${i === activeIndex ? 'is-active' : ''}`}
             onClick={() => onSelect(i)}
+            tabIndex={0}
+            role="button"
+            aria-label={`${SHICHEN_LIST[i].name}时 · ${SHICHEN_LIST[i].meridian}，跳转对应时辰`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onSelect(i)
+              }
+            }}
           >
             <title>
               {SHICHEN_LIST[i].name}时 · {SHICHEN_LIST[i].meridian}

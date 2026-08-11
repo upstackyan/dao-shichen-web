@@ -12,12 +12,15 @@
 - **人体经络模型**：内置 SVG 写实比例立像（渐变填充 + 水墨晕染光晕），当前经络以主题色流动虚线动画展示气血流注方向，起止腧穴圆点脉动
 - **双向联动**：点击人体上任一经络可跳转至对应时辰；底部时间轴（自子时 23:00 起 12 段）支持拖拽/点击预览，随时辰同步切换面板与人体高亮，「回到现在」一键恢复实时
 - **三态主题**：随昼夜自动切换（卯至申浅色昼、余时深色夜）或手动锁定昼/夜，全局 CSS Variables 驱动，切换平滑过渡
+- **公历 + 农历双历**：时辰卡片右上角实时展示公历日期时间与农历干支生肖纪年、月日（闰月自动标识，基于 `lunar-typescript`）
+- **书法点缀与可访问性**：页眉标题、大地支字与时间轴地支标签使用马善政楷子集字体（OFL，内联 5.6KB）；全部交互支持键盘操作与可见焦点环，动效遵循 `prefers-reduced-motion` 降级
 
 ## 技术栈
 
 - Vite 5 + React 18 + TypeScript（strict 模式）
 - Tailwind CSS v4（`@tailwindcss/vite` 插件）：布局/排版/主题全部使用工具类；昼夜主题变量通过 `@theme inline` 映射为 `bg-bg`、`text-ink`、`bg-accent` 等设计令牌；人体 SVG 内部的描边/流注动画保留少量场景样式（`index.css`）
 - 零 UI / 动画库依赖：经络流注动画基于 SVG `stroke-dashoffset`，时间轴拖拽基于原生 Pointer Events，尺寸随视窗用 `clamp()` 任意值弹性压缩
+- `lunar-typescript`：公历 ↔ 农历（干支纪年、生肖、闰月）换算
 - 桌面正常视窗下整页单屏显示（`h-dvh`），无页面级滚动
 
 ## 快速开始
@@ -37,6 +40,8 @@ npm run preview    # 本地预览构建产物
 src/
 ├── data/meridians.ts          # 十二时辰核心数据（唯一数据源）
 ├── utils/time.ts              # 时辰偏移计算（以 23:00 子时为起点）
+├── utils/lunar.ts             # 公历/农历双历展示文本（lunar-typescript）
+├── assets/fonts/              # 书法子集字体（马善政楷，OFL）
 ├── hooks/
 │   ├── useCurrentShichen.ts   # 每秒走时
 │   └── useTheme.ts            # 主题三态 + 昼夜自动判定

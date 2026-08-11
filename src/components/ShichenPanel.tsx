@@ -46,7 +46,7 @@ export default function ShichenPanel({
       <div className="flex items-start justify-between gap-[clamp(12px,1.8vw,20px)]">
         <div className="flex items-center gap-[clamp(12px,1.8vw,20px)]">
           <div
-            className="font-display text-[clamp(44px,9vh,92px)] leading-none font-bold text-white/90 drop-shadow-[0_4px_18px_rgba(0,0,0,0.25)]"
+            className="font-glyph text-[clamp(44px,9vh,92px)] leading-none font-bold text-white/90 drop-shadow-[0_4px_18px_rgba(0,0,0,0.25)]"
             aria-hidden
           >
             {data.name}
