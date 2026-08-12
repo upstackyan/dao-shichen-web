@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "icons": "node scripts/gen-icons.mjs",
+    "pack:ext": "node scripts/pack-ext.mjs",
+    "build:ext": "npm run build && npm run pack:ext"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

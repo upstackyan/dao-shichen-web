@@ -28,6 +28,7 @@ npm run preview    # 预览构建产物
 - 修改 Tailwind 配置 / 插件后需重启 dev server（旧进程不会自动加载新插件，曾导致零工具类输出）
 - 字体三层角色：`--font-ui`（无衬线正文）/ `--font-display`（人文衬线，金句等）/ `--font-glyph`（书法子集体「Ziwu Glyph」，仅页眉标题、大地支字、时间轴地支标签）；子集文件 `src/assets/fonts/mashanzheng-subset.woff2`（马善政楷、OFL，仅 14 字）。扩充字形需用 `subset-font` 重新生成子集，勿直接引入全量字体
 - 可访问性底线：交互元素（时间轴段、经络命中区、按钮）必须键盘可达并有可见 `:focus-visible` 轮廓；流注/脉冲/金句动画须在 `prefers-reduced-motion: reduce` 下降级为静止
+- 同一构建产物兼任 Chrome MV3 扩展包：`public/manifest.json`（`chrome_url_overrides.newtab` 接管新标签页）与图标经 Vite 拷入 `dist/`。MV3 扩展页 CSP 禁止内联 `<script>` 与远程代码——引入内联脚本、CDN 资源或新权限前必须评估扩展兼容性；`npm run build:ext` 打包至 `release/`（已 gitignore）
 
 ## 核心架构约定
 

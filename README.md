@@ -34,6 +34,18 @@ npm run preview    # 本地预览构建产物
 
 构建配置 `base: './'`，`dist/` 可直接部署到任意静态托管（GitHub Pages / Vercel / Netlify 等）。
 
+## Chrome 扩展（新标签页）
+
+同一份构建产物同时是一个 Manifest V3 扩展：`public/manifest.json` 经 Vite 拷入 `dist/`，通过 `chrome_url_overrides.newtab` 接管新标签页。零权限、零网络请求。
+
+```bash
+npm run build:ext    # 构建 + 打包 release/ziwu-liuzhu-ext-v<version>.zip
+```
+
+- 本地体验：`chrome://extensions` → 开发者模式 → 「加载已解压的扩展程序」→ 选择 `dist/`
+- 发布：将 `release/*.zip` 上传至 Chrome Web Store Developer Dashboard（需开发者账号）；隐私政策见 [PRIVACY.md](./PRIVACY.md)
+- 图标源文件 `public/icons/icon.svg`（十二传统色时辰轮盘），用 `npm run icons` 重新生成 SVG，PNG 四档用 sharp 渲染（见脚本头注释）
+
 ## 目录结构
 
 ```
@@ -53,6 +65,12 @@ src/
 ├── App.tsx                    # 实时/预览双模式状态编排（Tailwind 布局）
 ├── index.css                  # Tailwind 入口 + 主题变量/令牌映射 + SVG 场景样式
 └── main.tsx
+public/
+├── manifest.json              # Chrome 扩展 MV3 清单（newtab 接管）
+└── icons/                     # 扩展图标（SVG 源 + 16/32/48/128 PNG）
+scripts/
+├── gen-icons.mjs              # 生成图标 SVG
+└── pack-ext.mjs               # dist → release zip
 ```
 
 ## 数据说明

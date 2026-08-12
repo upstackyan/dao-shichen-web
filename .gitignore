@@ -57,3 +57,6 @@ coverage
 
 # 浏览器验证截图等临时产物
 .verify-*.png
+
+# 扩展打包产物
+release/
