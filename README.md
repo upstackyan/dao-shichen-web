@@ -46,6 +46,10 @@ npm run build:ext    # 构建 + 打包 release/ziwu-liuzhu-ext-v<version>.zip
 - 发布：将 `release/*.zip` 上传至 Chrome Web Store Developer Dashboard（需开发者账号）；隐私政策见 [PRIVACY.md](./PRIVACY.md)
 - 图标源文件 `public/icons/icon.svg`（十二传统色时辰轮盘），用 `npm run icons` 重新生成 SVG，PNG 四档用 sharp 渲染（见脚本头注释）
 
+### Edge Add-ons
+
+同一份 `release/*.zip` 可直接提交 Microsoft Edge 加载项（注册/提交免费）。商店资产（徽标 300×300、促销磁贴 440×280/1400×560、1280×800 截图）与中英商店文案、提交步骤见 [store/listing.md](./store/listing.md)。
+
 ## 目录结构
 
 ```
