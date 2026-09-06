@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "子午流注 · 十二时辰经络图",
-  "version": "1.0.0",
+  "version": "2026.906.0",
   "description": "新标签页展示中医子午流注：当前时辰的经络当令、养生宜忌与《黄帝内经》金句，十二时辰表盘时钟与可拖动时间轴。纯本地运行，不收集任何数据。",
   "lang": "zh-CN",
   "chrome_url_overrides": {

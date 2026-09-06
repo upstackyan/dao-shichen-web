@@ -1,12 +1,12 @@
 # Edge Add-ons 提交指南与商店文案
 
-Microsoft Edge 计划注册与提交**免费**（与 Chrome Web Store 的 $5 不同）。包体与 Chrome 版通用：`release/ziwu-liuzhu-ext-v1.0.0.zip`（MV3，零权限、零网络请求）。
+Microsoft Edge 计划注册与提交**免费**（与 Chrome Web Store 的 $5 不同）。包体与 Chrome 版通用：`release/ziwu-liuzhu-ext-v2026.906.0.zip`（MV3，零权限、零网络请求）。
 
 ## 提交步骤
 
 1. 用 Microsoft 账户（@outlook.com / @live.com / @hotmail.com 等 MSA）登录 [Partner Center](https://partner.microsoft.com/dashboard)，注册 **Microsoft Edge 计划**（个人账号即可，免费）
 2. 「创建新的加载项」→ 预留名称「子午流注 · 十二时辰经络图」
-3. 上传包：`release/ziwu-liuzhu-ext-v1.0.0.zip`（清单中的 name/description 会自动带入商店一览，只读）
+3. 上传包：`release/ziwu-liuzhu-ext-v2026.906.0.zip`（清单中的 name/description 会自动带入商店一览，只读）
 4. 在「语言 > 详细信息」填写下述文案并上传视觉资产（本目录 `store/`）
 5. 隐私实践：勾选不收集数据；隐私政策链接填仓库 PRIVACY.md 的 GitHub 地址
 6. 保存草稿 → 提交认证（审核通常 1–7 个工作日）
