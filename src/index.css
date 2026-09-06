@@ -84,7 +84,13 @@
   outline-offset: 2px;
 }
 
-/* SVG 表盘扇区聚焦时复用 hover 反馈（部分浏览器不对 SVG 绘制 outline） */
+/* SVG 表盘扇区焦点：全局 outline 会在 <g> 包围盒上画出方框（点击/键盘均会出现），
+   全部焦点状态禁用 outline，改用扇区提亮作焦点反馈 */
+.clock-hit:focus,
+.clock-hit:focus-visible {
+  outline: none;
+}
+
 .clock-hit:focus-visible .clock-sector-fill {
   opacity: 0.55;
 }

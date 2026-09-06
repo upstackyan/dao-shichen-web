@@ -155,7 +155,7 @@ export const SHICHEN_LIST: ShichenData[] = [
   {
     index: 4,
     name: '辰',
-    alias: '食时',
+    alias: '食',
     start: '07:00',
     end: '09:00',
     meridian: '足阳明胃经',
@@ -266,7 +266,7 @@ export const SHICHEN_LIST: ShichenData[] = [
   {
     index: 8,
     name: '申',
-    alias: '晡时',
+    alias: '晡',
     start: '15:00',
     end: '17:00',
     meridian: '足太阳膀胱经',

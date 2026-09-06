@@ -1,9 +1,10 @@
 import { SHICHEN_LIST } from '../data/meridians'
+import { offsetToClock } from '../utils/time'
 
 interface ShichenClockProps {
   /** 当前（或预览）偏移分钟，0 = 23:00 子时起点，位于表盘正上方 */
   offsetMinutes: number
-  /** 实时秒数，仅实时模式驱动分针平滑推进与秒针走动 */
+  /** 实时秒数，仅实时模式驱动时针平滑推进与秒针走动 */
   seconds: number
   isLive: boolean
   activeIndex: number
@@ -55,9 +56,9 @@ export default function ShichenClock({
   onSelect,
 }: ShichenClockProps) {
   const active = SHICHEN_LIST[activeIndex]
-  // 时针一天一圈（24 小时制地支盘），分针一小时一圈；实时模式按秒平滑推进
-  const hourAngle = (offsetMinutes / 1440) * 360
-  const minuteAngle = (offsetMinutes % 60) * 6 + (isLive ? seconds * 0.1 : 0)
+  // 只保留时针（一天一圈，与外圈 24 小时地支刻度同标度）与秒针；
+  // 分针标度与外圈不对应，已移除，分钟由盘心数字时钟读取
+  const hourAngle = (offsetMinutes / 1440) * 360 + (isLive ? seconds * 0.0025 : 0)
   const secondAngle = seconds * 6
 
   return (
@@ -75,7 +76,7 @@ export default function ShichenClock({
         viewBox="0 0 400 400"
         preserveAspectRatio="xMidYMid meet"
         role="group"
-        aria-label={`时辰表盘时钟，指针指向 ${offsetToDialText(offsetMinutes)}，当前 ${active.name}时 ${active.meridian} 当令`}
+        aria-label={`时辰表盘时钟，当前 ${offsetToClock(offsetMinutes)}，${active.name}时 ${active.meridian} 当令`}
       >
         {/* 外缘双环与时时刻刻（24 格，时辰交界加粗） */}
         <circle cx={CX} cy={CY} r="188" className="clock-rim" strokeWidth="1" />
@@ -144,12 +145,9 @@ export default function ShichenClock({
           className="transition-[stroke] duration-[600ms]"
         />
 
-        {/* 指针（基底被盘心圆牌遮盖）：时针日行一圈，分针时行一圈，秒针仅实时模式走动 */}
+        {/* 指针（基底被盘心圆牌遮盖）：时针日行一圈直指当令扇区，秒针仅实时模式走动 */}
         <g transform={`rotate(${hourAngle.toFixed(3)} ${CX} ${CY})`}>
-          <line x1={CX} y1={CY} x2={CX} y2={CY - 90} className="clock-hand" strokeWidth="5.5" />
-        </g>
-        <g transform={`rotate(${minuteAngle.toFixed(3)} ${CX} ${CY})`}>
-          <line x1={CX} y1={CY} x2={CX} y2={CY - 104} className="clock-hand" strokeWidth="3.5" />
+          <line x1={CX} y1={CY} x2={CX} y2={CY - 104} className="clock-hand" strokeWidth="6" />
         </g>
         {isLive && (
           <g transform={`rotate(${secondAngle} ${CX} ${CY})`}>
@@ -157,35 +155,26 @@ export default function ShichenClock({
               x1={CX}
               y1={CY}
               x2={CX}
-              y2={CY - 108}
+              y2={CY - 110}
               className="clock-hand-second"
               strokeWidth="1.5"
             />
           </g>
         )}
 
-        {/* 盘心圆牌：当前时辰书法地支字 + 经络名 */}
-        <circle cx={CX} cy={CY} r="58" className="clock-medallion" strokeWidth="1" />
+        {/* 盘心圆牌：24 小时制数字时钟居中 */}
+        <circle cx={CX} cy={CY} r="62" className="clock-medallion" strokeWidth="1" />
         <text
           x={CX}
-          y={CY - 12}
+          y={CY}
           textAnchor="middle"
           dominantBaseline="central"
-          className="fill-accent font-glyph transition-colors duration-[600ms] group-data-[theme=dark]:fill-accent-light"
-          fontSize="40"
-        >
-          {active.name}
-        </text>
-        <text
-          x={CX}
-          y={CY + 22}
-          textAnchor="middle"
-          dominantBaseline="central"
-          className="fill-ink-soft"
-          fontSize="12"
+          className="fill-ink tabular-nums transition-colors duration-[600ms]"
+          fontSize="34"
+          fontWeight="600"
           letterSpacing="1"
         >
-          {active.meridian}
+          {offsetToClock(offsetMinutes)}
         </text>
       </svg>
       <div className="flex shrink-0 items-center gap-2 border-t border-dashed border-line pt-[clamp(6px,1vh,10px)] text-[clamp(11px,1.6vh,13px)] text-ink-soft">
@@ -198,10 +187,4 @@ export default function ShichenClock({
       </div>
     </section>
   )
-}
-
-/** aria 描述用：偏移分钟 → 「X时X分」（表盘 0° 为子时起点 23:00） */
-function offsetToDialText(offsetMinutes: number): string {
-  const total = (offsetMinutes + 23 * 60) % 1440
-  return `${Math.floor(total / 60)}时${total % 60}分`
 }
