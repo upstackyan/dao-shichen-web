@@ -11,7 +11,7 @@ import {
   secondsToNextShichen,
 } from './utils/time'
 import ShichenPanel from './components/ShichenPanel'
-import BodyMeridian from './components/BodyMeridian'
+import ShichenClock from './components/ShichenClock'
 import Timeline from './components/Timeline'
 import ThemeToggle from './components/ThemeToggle'
 
@@ -61,7 +61,10 @@ export default function App() {
           countdownText={formatCountdown(secondsToNextShichen(now))}
           now={now}
         />
-        <BodyMeridian
+        <ShichenClock
+          offsetMinutes={offset}
+          seconds={now.getSeconds()}
+          isLive={isLive}
           activeIndex={activeIndex}
           onSelect={(i) => setPreviewMinutes(i * 120 + 60)}
         />
@@ -75,7 +78,7 @@ export default function App() {
       />
 
       <footer className="mt-[clamp(6px,1vh,14px)] shrink-0 text-center text-[clamp(10px,1.5vh,12px)] tracking-[0.05em] text-ink-soft">
-        经络循行为科普级简化示意，非医学精确循行图 · 内容仅供传统文化参考，不构成医疗建议
+        时辰养生内容为科普级整理 · 仅供传统文化参考，不构成医疗建议
       </footer>
     </div>
   )

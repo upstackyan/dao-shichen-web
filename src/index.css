@@ -20,10 +20,6 @@
   --ink: #2b2620;
   --ink-soft: #7a7166;
   --line: #ddd2bd;
-  --body-fill-top: #f2ead8;
-  --body-fill-bottom: #d9cdae;
-  --body-stroke: #9a8f7a;
-  --meridian-idle: #a89d88;
   --shadow: rgba(60, 48, 30, 0.12);
 }
 
@@ -33,10 +29,6 @@
   --ink: #e9e2d2;
   --ink-soft: #99917f;
   --line: #2c3340;
-  --body-fill-top: #2b3444;
-  --body-fill-bottom: #1b2330;
-  --body-stroke: #5a6270;
-  --meridian-idle: #4c5462;
   --shadow: rgba(0, 0, 0, 0.45);
 }
 
@@ -92,110 +84,89 @@
   outline-offset: 2px;
 }
 
-/* SVG 经络命中区聚焦时复用 hover 反馈（部分浏览器不对 SVG 绘制 outline） */
-.meridian-hit:focus-visible .meridian-line {
-  opacity: 0.9;
-  stroke: var(--accent);
+/* SVG 表盘扇区聚焦时复用 hover 反馈（部分浏览器不对 SVG 绘制 outline） */
+.clock-hit:focus-visible .clock-sector-fill {
+  opacity: 0.55;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .active-flow,
-  .active-dot,
   .animate-quote-in {
     animation: none;
   }
 }
 
-/* ===== SVG 场景（人体 / 经络）：随主题变量着色的内部样式 ===== */
+/* ===== SVG 时辰表盘：随主题变量着色的内部样式 ===== */
 
-@keyframes meridian-flow {
-  /* 虚线周期 18px，位移 180 为 10 个周期，无缝循环 */
-  to {
-    stroke-dashoffset: -180;
-  }
-}
-
-@keyframes dot-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.45;
-  }
-}
-
-.body-aura {
-  fill: var(--accent);
-  opacity: 0.08;
-  transition: fill 0.6s ease;
-}
-
-.body-grad-top {
-  stop-color: var(--body-fill-top);
-}
-
-.body-grad-bottom {
-  stop-color: var(--body-fill-bottom);
-}
-
-.silhouette {
-  stroke: var(--body-stroke);
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 8px 14px var(--shadow));
+.clock-rim {
+  fill: none;
+  stroke: var(--line);
   transition: stroke 0.6s ease;
 }
 
-.hit-area {
-  fill: none;
-  stroke: transparent;
-  stroke-width: 16;
-  stroke-linecap: round;
-  pointer-events: stroke;
+.clock-tick {
+  stroke: var(--ink-soft);
+  opacity: 0.4;
+}
+
+.clock-tick-major {
+  stroke: var(--ink);
+  opacity: 0.55;
+}
+
+.clock-hit {
   cursor: pointer;
 }
 
-.meridian-line {
-  fill: none;
-  stroke: var(--meridian-idle);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  opacity: 0.4;
+.clock-sector-fill {
+  opacity: 0.22;
+  transition: opacity 0.3s ease;
+}
+
+.app[data-theme='dark'] .clock-sector-fill {
+  opacity: 0.3;
+}
+
+.clock-hit:hover .clock-sector-fill,
+.clock-hit:focus-visible .clock-sector-fill {
+  opacity: 0.55;
+}
+
+.clock-hit.is-active .clock-sector-fill {
+  opacity: 0.92;
+}
+
+/* 地支刻度字：书法子集体，当前时辰反白；非当前用主墨色保证对比度 */
+.clock-branch {
+  font-family: var(--font-glyph);
+  fill: var(--ink);
+  opacity: 0.85;
   pointer-events: none;
-  transition: stroke 0.3s ease, opacity 0.3s ease;
+  transition: fill 0.3s ease, opacity 0.3s ease;
 }
 
-.meridian-hit:hover .meridian-line {
-  opacity: 0.9;
+.clock-hit.is-active .clock-branch {
+  fill: #fff;
+  opacity: 1;
+}
+
+.clock-hand {
+  stroke: var(--ink);
+  stroke-linecap: round;
+  transition: stroke 0.6s ease;
+}
+
+.clock-hand-second {
   stroke: var(--accent);
-}
-
-.meridian-hit.is-active .meridian-line {
-  opacity: 0;
-}
-
-.active-underlay {
-  fill: none;
-  stroke-width: 6;
   stroke-linecap: round;
-  opacity: 0.28;
 }
 
-.active-flow {
-  fill: none;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 10 8;
-  animation: meridian-flow 3.5s linear infinite;
+/* 深色下部分时辰主色偏暗，细秒针切浅色端保证 3:1 对比度 */
+.app[data-theme='dark'] .clock-hand-second {
+  stroke: var(--accent-light);
 }
 
-.active-dot {
-  animation: dot-pulse 1.8s ease-in-out infinite;
-}
-
-.active-label {
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  font-family: var(--font-ui);
+.clock-medallion {
+  fill: var(--bg-card);
+  stroke: var(--line);
+  transition: fill 0.6s ease, stroke 0.6s ease;
 }
